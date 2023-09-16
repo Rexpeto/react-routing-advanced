@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const NotFound = () => {
   return (
     <section className="bg-white dark:bg-gray-900">
@@ -13,12 +15,12 @@ const NotFound = () => {
             Lo sentimos, no podemos encontrar esa página. Encontrarás lo que
             quieres en la página de inicio.
           </p>
-          <a
-            href="#"
+          <Link
+            to="/"
             className="inline-flex text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4"
           >
-            Volver al initio
-          </a>
+            Volver al inicio
+          </Link>
         </div>
       </div>
     </section>
