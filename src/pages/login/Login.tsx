@@ -1,4 +1,39 @@
+import { createUser } from "@/redux/slices/user.slice";
+import { loginService } from "@/services";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
+interface dataUser {
+  email: string;
+  password: string;
+}
+
 const Login = () => {
+  const dispatch = useDispatch();
+  const [data, setData] = useState<dataUser>({ email: "", password: "" });
+
+  const login = async () => {
+    try {
+      const result = await loginService(data);
+      dispatch(createUser(result?.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData({ ...data, [e.target.name]: e.target.value.toLowerCase() });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!data?.email) return console.log("Debe colocar un correo electronico");
+
+    if (!data?.password) return console.log("Debe colocar la contraseña");
+
+    login();
+  };
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -14,7 +49,10 @@ const Login = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Iniciar sesión
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form
+              className="space-y-4 md:space-y-6"
+              onSubmit={(e) => handleSubmit(e)}
+            >
               <div>
                 <label
                   htmlFor="email"
@@ -28,6 +66,7 @@ const Login = () => {
                   id="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none transition duration-150"
                   placeholder="name@company.com"
+                  onChange={(e) => handleChange(e)}
                 />
               </div>
               <div>
@@ -42,6 +81,7 @@ const Login = () => {
                   name="password"
                   id="password"
                   placeholder="••••••••"
+                  onChange={(e) => handleChange(e)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none transition duration-150"
                 />
               </div>
