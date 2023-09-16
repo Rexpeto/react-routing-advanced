@@ -1,9 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Dashboard, Login, NotFound } from "@/pages";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const App = () => {
   return (
-    <div>
+    <Provider store={store}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -11,7 +13,7 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    </Provider>
   );
 };
 
