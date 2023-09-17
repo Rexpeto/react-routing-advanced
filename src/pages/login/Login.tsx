@@ -1,7 +1,9 @@
-import { createUser } from "@/redux/slices/user.slice";
+import { PrivateRoutes, PublicRoutes } from "@/models";
+import { createUser, resetUser } from "@/redux/slices/user.slice";
 import { loginService } from "@/services";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 interface dataUser {
   email: string;
@@ -11,11 +13,18 @@ interface dataUser {
 const Login = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState<dataUser>({ email: "", password: "" });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(resetUser());
+    navigate(`/${PublicRoutes.LOGIN}`, { replace: true });
+  }, []);
 
   const login = async () => {
     try {
       const result = await loginService(data);
       dispatch(createUser(result?.data));
+      navigate(`/${PrivateRoutes.PRIVATE}`);
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +44,7 @@ const Login = () => {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <section className="bg-gray-50 dark:bg-gray-900 h-screen">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a
           href="#"
