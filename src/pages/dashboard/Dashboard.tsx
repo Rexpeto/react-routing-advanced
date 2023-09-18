@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { MdSpaceDashboard } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { UserNav } from "@/components";
@@ -43,7 +43,6 @@ const Dashboard = () => {
           </div>
         </div>
       </nav>
-
       <aside
         id="logo-sidebar"
         className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
@@ -63,6 +62,9 @@ const Dashboard = () => {
           </ul>
         </div>
       </aside>
+      <div className="p-4 py-20 sm:ml-64 bg-gray-50 dark:bg-gray-900 h-screen dark:text-white">
+        <Outlet />
+      </div>
     </>
   );
 };
