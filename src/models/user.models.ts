@@ -1,8 +1,10 @@
+import { Roles } from ".";
+
 export interface UserInfo {
   _id: string;
   name: string;
   email: string;
   avatarUrl: string;
-  rol: string;
+  rol: Roles | string;
   accessToken: string;
 }
