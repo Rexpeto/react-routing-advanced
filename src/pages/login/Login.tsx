@@ -1,9 +1,9 @@
 import { PrivateRoutes, PublicRoutes } from "@/models";
-import { createUser, resetUser } from "@/redux/slices/user.slice";
+import { createUser } from "@/redux/slices/user.slice";
 import { loginService } from "@/services";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface dataUser {
   email: string;
@@ -15,16 +15,11 @@ const Login = () => {
   const [data, setData] = useState<dataUser>({ email: "", password: "" });
   const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(resetUser());
-    navigate(`/${PublicRoutes.LOGIN}`, { replace: true });
-  }, []);
-
   const login = async () => {
     try {
       const result = await loginService(data);
       dispatch(createUser(result?.data));
-      navigate(`/${PrivateRoutes.PRIVATE}`);
+      navigate(`/${PrivateRoutes.DASHBOARD}`, { replace: true });
     } catch (error) {
       console.log(error);
     }
@@ -46,13 +41,13 @@ const Login = () => {
   return (
     <section className="bg-gray-50 dark:bg-gray-900 h-screen">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <a
-          href="#"
+        <Link
+          to={`/${PublicRoutes.LOGIN}`}
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
           <img className="w-8 h-8 mr-2" src="logo.svg" alt="logo" />
           Vypers
-        </a>
+        </Link>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -73,7 +68,7 @@ const Login = () => {
                   type="email"
                   name="email"
                   id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none transition duration-150"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 xl:py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none transition duration-150"
                   placeholder="name@company.com"
                   onChange={(e) => handleChange(e)}
                 />
@@ -91,16 +86,16 @@ const Login = () => {
                   id="password"
                   placeholder="••••••••"
                   onChange={(e) => handleChange(e)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none transition duration-150"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 xl:py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none transition duration-150"
                 />
               </div>
               <div className="flex items-center justify-between">
-                <a
-                  href="#"
+                <Link
+                  to={`/${PublicRoutes.FORGOT_PASSWORD}`}
                   className="text-sm font-medium text-primary-600 hover:underline dark:text-blue-500"
                 >
                   Olvidé mi contraseña
-                </a>
+                </Link>
               </div>
               <button
                 type="submit"
@@ -110,12 +105,12 @@ const Login = () => {
               </button>
               <p className="flex gap-2 text-sm font-light text-gray-500 dark:text-gray-400">
                 ¿No tienes una cuenta?
-                <a
-                  href="#"
+                <Link
+                  to={`/${PublicRoutes.REGISTER}`}
                   className="font-medium text-primary-600 hover:underline dark:text-blue-500 transition-all duration-150"
                 >
                   Registrarse
-                </a>
+                </Link>
               </p>
             </form>
           </div>
