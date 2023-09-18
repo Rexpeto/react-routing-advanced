@@ -19,7 +19,7 @@ export const userSlice = createSlice({
     ? JSON.parse(localStorage.getItem("user") as string)
     : emptyUserState,
   reducers: {
-    createUser: (state, action) => {
+    createUser: (_state, action) => {
       persistLocalStorage<UserInfo>(userKey, action.payload);
       return action.payload;
     },
